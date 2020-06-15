@@ -11,6 +11,8 @@ import {
   signUpFailure,
 } from "./user.actions";
 
+import { clearCart } from "../cart/cart.actions";
+
 import {
   auth,
   googleProvider,
@@ -82,6 +84,10 @@ export function* signInAfterSignUp({ payload: { user, additionalData } }) {
   yield getSnapshotFromUserAuth(user, additionalData);
 }
 
+export function* clearCartAfterCheckout() {
+  yield put(clearCart());
+}
+
 export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
@@ -106,6 +112,10 @@ export function* onSignUpSuccess() {
   yield takeLatest(UserActionTypes.SIGN_UP_SUCCESS, signInAfterSignUp);
 }
 
+export function* onCheckoutSuccess() {
+  yield takeLatest(UserActionTypes.CHECK_OUT_SUCCESS, clearCartAfterCheckout);
+}
+
 export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
@@ -113,6 +123,7 @@ export function* userSagas() {
     call(onCheckUserSession),
     call(onSignOutStart),
     call(onSignUpStart),
-    call(onSignUpSuccess)
+    call(onSignUpSuccess),
+    call(onCheckoutSuccess)
   ]);
 }

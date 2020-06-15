@@ -26,4 +26,4 @@ export const fetchCollectionsStartAsync = () => {
       dispatch(fetchCollectionsSuccess(collectionsMap));
     }).catch(error => dispatch(fetchCollectionsFailure(error)));
   }
-}
+} // thunk
